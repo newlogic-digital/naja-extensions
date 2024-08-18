@@ -19,7 +19,8 @@
     "neostandard": "^0.11.0"
   },
   "files": [
-    "index.js"
+    "index.js",
+    "index.d.ts"
   ],
   "exports": {
     ".": {
