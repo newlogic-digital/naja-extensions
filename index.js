@@ -1,6 +1,12 @@
 import naja from 'naja'
 import { dispatchEvent } from '@newlogic-digital/utils-js'
 
+/**
+ * @param {HTMLElement} element
+ * @param {boolean} bindUI
+ * @param {string} selectors
+ * @returns void
+ */
 export const initNaja = (element, bindUI = true, selectors = 'button, [role="button"]') => {
     bindUI && naja.uiHandler.bindUI(element)
 
@@ -13,12 +19,16 @@ export const initNaja = (element, bindUI = true, selectors = 'button, [role="but
     })
 }
 
+/**
+ * @param {import("./").NajaCoreExtensionOptions} options
+ * @returns import('naja/dist/Naja').Extension
+ */
 export const NajaCoreExtension = (options) => {
     return {
         initialize(naja) {
             naja.uiHandler.selector = '[data-naja]'
 
-            initNaja(document.body, false)
+            initNaja(document.body, false, options.selectors)
 
             naja.uiHandler.addEventListener('interaction', (event) => {
                 dispatchEvent(event.detail.element, 'naja:interaction')
