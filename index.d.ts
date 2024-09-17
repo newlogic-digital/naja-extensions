@@ -1,4 +1,4 @@
-import { Extension } from 'naja/dist/Naja'
+import { Extension } from 'naja/src/Naja'
 
 export interface NajaCoreExtensionOptions {
     selector?: string
@@ -7,4 +7,5 @@ export interface NajaCoreExtensionOptions {
 }
 
 export function initNaja(element: HTMLElement, bindUI?: boolean, selectors?: string): void
-export function NajaCoreExtension(options: NajaCoreExtensionOptions): Extension
+export function NajaCoreExtension(options?: NajaCoreExtensionOptions): Extension
+export function NajaInvokeExtension(): Extension

@@ -1,5 +1,5 @@
 import naja from 'naja'
-import { dispatchEvent } from '@newlogic-digital/utils-js'
+import { dataset, dispatchEvent } from '@newlogic-digital/utils-js'
 
 /**
  * @param {HTMLElement} element
@@ -13,8 +13,14 @@ export const initNaja = (element, bindUI = true, selectors = 'button, [role="but
     element.querySelectorAll(`:where(${selectors})${naja.uiHandler.selector}`).forEach((element) => {
         if (element.form && element.type === 'submit') return
 
-        element.addEventListener('click', (event) => {
-            naja.uiHandler.processInteraction(element, element.dataset.najaMethod ?? 'GET', element.dataset.najaUrl, element.dataset.najaData, {}, event)
+        element.addEventListener('click', async function interaction(event) {
+            await naja.uiHandler.processInteraction(element, element.dataset.najaMethod ?? 'GET', element.dataset.najaUrl, element.dataset.najaData, {}, event)
+
+            if (element.dataset.naja?.includes('once')) {
+                element.removeAttribute('data-naja')
+
+                element.removeEventListener('click', interaction)
+            }
         })
     })
 }
@@ -51,11 +57,26 @@ export const NajaCoreExtension = (options) => {
             })
 
             naja.addEventListener('start', (event) => {
-                event.detail.options.interactionElement.setAttribute(options.loadingAttribute ?? 'data-loading', '')
+                event.detail.options.interactionElement?.setAttribute(options.loadingAttribute ?? 'data-loading', '')
             })
 
             naja.addEventListener('complete', (event) => {
-                event.detail.options.interactionElement.removeAttribute(options.loadingAttribute ?? 'data-loading')
+                event.detail.options.interactionElement?.removeAttribute(options.loadingAttribute ?? 'data-loading')
+            })
+        }
+    }
+}
+
+export const NajaInvokeExtension = () => {
+    return {
+        initialize(naja) {
+            naja.snippetHandler.addEventListener('afterUpdate', ({ detail }) => {
+                const interactionElement = detail.options.interactionElement
+
+                if (!interactionElement && !interactionElement.getAttribute('data-naja').includes('invoke')) return
+
+                interactionElement.setAttribute('data-invoke-target', detail.snippet.id)
+                dataset(interactionElement, 'action').add('invoke#controller')
             })
         }
     }
