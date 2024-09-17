@@ -1,6 +1,6 @@
 {
   "name": "@newlogic-digital/naja-extensions",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "main": "src/index.js",
   "author": "New Logic Studio s.r.o.",
@@ -15,8 +15,8 @@
     "@newlogic-digital/utils-js": "^0.3.2"
   },
   "devDependencies": {
-    "eslint": "^9.6.0",
-    "neostandard": "^0.11.0"
+    "eslint": "^9.10.0",
+    "neostandard": "^0.11.5"
   },
   "files": [
     "index.js",

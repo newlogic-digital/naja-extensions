@@ -1,10 +1,9 @@
 import { Extension } from 'naja/dist/Naja'
 
 export interface NajaCoreExtensionOptions {
-    onInteraction?: Function
-    onAfterUpdate?: Function
-    onSuccess?: Function
+    selector?: string
     selectors?: string
+    loadingAttribute?: string
 }
 
 export function initNaja(element: HTMLElement, bindUI?: boolean, selectors?: string): void
