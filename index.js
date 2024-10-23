@@ -1,5 +1,5 @@
 import naja from 'naja'
-import { dataset, dispatchEvent } from '@newlogic-digital/utils-js'
+import { dataset, dispatchCustomEvent } from '@newlogic-digital/utils-js'
 
 /**
  * @param {HTMLElement} element
@@ -29,7 +29,7 @@ export const initNaja = (element, bindUI = true, selectors = 'button, [role="but
  * @param {import("./").NajaCoreExtensionOptions} options
  * @returns import('naja/dist/Naja').Extension
  */
-export const NajaCoreExtension = (options) => {
+export const NajaCoreExtension = (options = {}) => {
     return {
         initialize(naja) {
             naja.uiHandler.selector = options.selector ?? '[data-naja]'
@@ -37,7 +37,7 @@ export const NajaCoreExtension = (options) => {
             initNaja(document.body, false, options.selectors)
 
             naja.uiHandler.addEventListener('interaction', (event) => {
-                dispatchEvent(event.detail.element, 'naja:interaction')
+                dispatchCustomEvent(event.detail.element, 'naja:interaction')
 
                 event.detail.options.interactionElement = event.detail.element
 
@@ -47,12 +47,12 @@ export const NajaCoreExtension = (options) => {
             })
 
             naja.snippetHandler.addEventListener('afterUpdate', (event) => {
-                dispatchEvent(event.detail.snippet, 'naja:afterUpdate')
+                dispatchCustomEvent(event.detail.snippet, 'naja:afterUpdate')
             })
 
             naja.addEventListener('success', (event) => {
                 if (event.detail?.payload?.formId && event?.detail?.payload?.formStatus) {
-                    dispatchEvent(document.getElementById(event.detail.payload.formId), `naja:form-${event.detail.payload.formStatus}`)
+                    dispatchCustomEvent(document.getElementById(event.detail.payload.formId), `naja:form-${event.detail.payload.formStatus}`)
                 }
             })
 
