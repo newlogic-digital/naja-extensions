@@ -76,7 +76,7 @@ export const NajaInvokeExtension = () => {
                 if (!interactionElement && !interactionElement.getAttribute('data-naja').includes('invoke')) return
 
                 interactionElement.setAttribute('data-invoke-target', `#${detail.snippet.id}`)
-                dataset(interactionElement, 'action').add('invoke#controller')
+                dataset(interactionElement, 'action').add('invoke#action')
             })
         }
     }
