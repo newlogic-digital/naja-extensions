@@ -1,6 +1,6 @@
 {
   "name": "@newlogic-digital/naja-extensions",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "type": "module",
   "main": "src/index.js",
   "author": "New Logic Studio s.r.o.",
@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "naja": "^3.2.1",
-    "@newlogic-digital/utils-js": "^1.1.0"
+    "@newlogic-digital/utils-js": "^1.1.1"
   },
   "devDependencies": {
     "eslint": "^9.10.0",
