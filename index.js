@@ -73,7 +73,7 @@ export const NajaInvokeExtension = () => {
             naja.snippetHandler.addEventListener('afterUpdate', ({ detail }) => {
                 const interactionElement = detail.options.interactionElement
 
-                if (!interactionElement || !interactionElement.getAttribute('data-naja').includes('invoke')) return
+                if (!interactionElement || !interactionElement?.getAttribute('data-naja')?.includes('invoke')) return
 
                 interactionElement.setAttribute('data-invoke-target', `#${detail.snippet.id}`)
                 dataset(interactionElement, 'action').add('invoke#action')
