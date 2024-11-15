@@ -81,3 +81,17 @@ export const NajaInvokeExtension = () => {
         }
     }
 }
+
+export const NajaCheckValidityExtension = () => {
+    return {
+        initialize(naja) {
+            naja.uiHandler.addEventListener('interaction', (event) => {
+                const { element } = event.detail
+
+                if (element?.form && !element.form.checkValidity()) {
+                    event.preventDefault()
+                }
+            })
+        }
+    }
+}
