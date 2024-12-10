@@ -4,6 +4,7 @@ export interface NajaCoreExtensionOptions {
     selector?: string
     selectors?: string
     loadingAttribute?: string
+    popstateSource?: string
 }
 
 export function initNaja(element: HTMLElement, bindUI?: boolean, selectors?: string): void

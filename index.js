@@ -50,6 +50,10 @@ export const NajaCoreExtension = (options = {}) => {
                 dispatchCustomEvent(event.detail.snippet, 'naja:afterUpdate')
             })
 
+            naja.historyHandler.addEventListener('buildState', ({ detail }) => {
+                detail.state.source = options.popstateSource ?? 'swup'
+            })
+
             naja.addEventListener('success', (event) => {
                 if (event.detail?.payload?.formId && event?.detail?.payload?.formStatus) {
                     dispatchCustomEvent(document.getElementById(event.detail.payload.formId), `naja:form-${event.detail.payload.formStatus}`)
