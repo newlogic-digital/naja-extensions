@@ -10,3 +10,4 @@ export interface NajaCoreExtensionOptions {
 export function initNaja(element: HTMLElement, bindUI?: boolean, selectors?: string): void
 export function NajaCoreExtension(options?: NajaCoreExtensionOptions): Extension
 export function NajaInvokeExtension(): Extension
+export function NajaCheckValidityExtension(): Extension
