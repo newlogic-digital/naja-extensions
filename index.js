@@ -37,7 +37,9 @@ export const NajaCoreExtension = (options = {}) => {
             initNaja(document.body, false, options.selectors)
 
             naja.uiHandler.addEventListener('interaction', (event) => {
-                dispatchCustomEvent(event.detail.element, 'naja:interaction')
+                dispatchCustomEvent(event.detail.element, 'naja:interaction', {
+                    detail: event.detail
+                })
 
                 event.detail.options.interactionElement = event.detail.element
 
@@ -47,7 +49,9 @@ export const NajaCoreExtension = (options = {}) => {
             })
 
             naja.snippetHandler.addEventListener('afterUpdate', (event) => {
-                dispatchCustomEvent(event.detail.snippet, 'naja:afterUpdate')
+                dispatchCustomEvent(event.detail.snippet, 'naja:afterUpdate', {
+                    detail: event.detail
+                })
             })
 
             naja.historyHandler.addEventListener('buildState', ({ detail }) => {
@@ -56,7 +60,9 @@ export const NajaCoreExtension = (options = {}) => {
 
             naja.addEventListener('success', (event) => {
                 if (event.detail?.payload?.formId && event?.detail?.payload?.formStatus) {
-                    dispatchCustomEvent(document.getElementById(event.detail.payload.formId), `naja:form-${event.detail.payload.formStatus}`)
+                    dispatchCustomEvent(document.getElementById(event.detail.payload.formId), `naja:form-${event.detail.payload.formStatus}`, {
+                        detail: event.detail
+                    })
                 }
             })
 
