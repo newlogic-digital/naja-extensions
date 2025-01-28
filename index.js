@@ -52,6 +52,8 @@ export const NajaCoreExtension = (options = {}) => {
                 dispatchCustomEvent(event.detail.snippet, 'naja:afterUpdate', {
                     detail: event.detail
                 })
+
+                initNaja(event.detail.snippet, true, options.selectors)
             })
 
             naja.historyHandler.addEventListener('buildState', ({ detail }) => {
