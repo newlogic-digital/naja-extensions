@@ -20,11 +20,11 @@
 ## Info
 ### NajaCoreExtension
 
-#### Sets default selector to `data-naja`
+#### 1. Sets default selector to `data-naja`
 
-#### Adds support for the `data-naja` attribute on buttons
+#### 2. Adds support for the `data-naja` attribute on buttons
 
-Standard usage:
+_Standard usage:_
 ```html
 <button data-naja data-naja-url="/url" data-naja-data='{"requestData": ""}'>Button</button>
 ```
@@ -32,32 +32,30 @@ Standard usage:
 - `data-naja-url`: Specifies the URL for the AJAX request.
 - `data-naja-data`: Contains the data to be sent with the request in JSON format.
 
-One-Time Activation:
+_One-Time Activation:_
 ```html
 <button data-naja="once" data-naja-url="/url" data-naja-data='{"requestData": ""}'>Button</button>
 ```
 - `data-naja="once"`: Ensures the event is removed after the first request, preventing further AJAX actions
 
-#### Adds support for recaptcha
+#### 3. Adds support for recaptcha
 
-#### Dispatches custom events on elements
+#### 4. Dispatches custom events on elements
 
-#### Adds loading attribute on buttons upon interaction
+#### 5. Adds loading attribute on buttons upon interaction
 
 ### NajaInvokeExtension
+Replaces naja interaction with invoke actions after interaction.
 
-#### Replaces naja interaction with invoke actions after interaction.
-
-Example before reuquest:
+_Example before request:_
 ```html
 <button data-naja="invoke once" data-naja-url="/url" data-naja-data='{"requestData": ""}'>Button</button>
 ```
 
-Example after request:
+_Example after request:_
 ```html
 <button data-action="invoke#action" data-invoke-target="#snippetId" data-naja-url="/url" data-naja-data='{"requestData": ""}'>Button</button>
 ```
 
 ### NajaCheckValidityExtension
-
 Prevents form sending if it's invalid
