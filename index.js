@@ -73,7 +73,12 @@ export const NajaCoreExtension = (options = {}) => {
             })
 
             naja.addEventListener('complete', (event) => {
-                event.detail.options.interactionElement?.removeAttribute(options.loadingAttribute ?? 'data-loading')
+                const elements = [
+                    event.detail.options.interactionElement,
+                    event.detail.options.interactionElement?.querySelector(`button[type="submit"]`)
+                ]
+
+                elements.forEach(element => element?.removeAttribute(options.loadingAttribute ?? 'data-loading'))
             })
         }
     }
