@@ -45,7 +45,7 @@ export const NajaCoreExtension = (options = {}) => {
 
                 const form = event.detail?.originalEvent?.target
 
-                if (form?.gtoken && !form?.recaptchaExecuted && !form?.checkValidity()) {
+                if (form?.gtoken && (!event.detail?.originalEvent?.detail?.recaptchaExecuted || !form?.checkValidity())) {
                     event.preventDefault()
                 }
             })
