@@ -11,12 +11,14 @@
     "publish-next": "npm publish --tag next"
   },
   "dependencies": {
-    "naja": "^3.2.1",
-    "@newlogic-digital/utils-js": "^1.1.1"
+    "naja": "^3.3.3",
+    "@newlogic-digital/utils-js": "^1.2.0"
   },
   "devDependencies": {
-    "eslint": "^9.10.0",
-    "neostandard": "^0.11.5"
+    "@eslint/js": "^10.0.1",
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "eslint": "^10.2.0",
+    "globals": "^17.5.0"
   },
   "files": [
     "index.js",
