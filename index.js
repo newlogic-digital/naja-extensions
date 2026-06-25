@@ -66,8 +66,17 @@ export const NajaCoreExtension = (options = {}) => {
       })
 
       naja.addEventListener('success', (event) => {
-        if (event.detail?.payload?.formId && event?.detail?.payload?.formStatus) {
-          dispatchCustomEvent(document.getElementById(event.detail.payload.formId), `naja:form-${event.detail.payload.formStatus}`, {
+        const formId = event.detail.payload.formId
+        const formStatus = event.detail.payload.formStatus
+
+        if (formId && formStatus) {
+          const formElement = document.getElementById(formId)
+
+          if (formElement && formElement.dataset.naja === 'dialog' && formStatus === 'success') {
+            formElement.closest('dialog')?.close()
+          }
+
+          dispatchCustomEvent(formElement, `naja:form-${formStatus}`, {
             detail: event.detail,
           })
         }
@@ -89,16 +98,21 @@ export const NajaCoreExtension = (options = {}) => {
   }
 }
 
-export const NajaInvokeExtension = () => {
+export const NajaCommandExtension = () => {
   return {
     initialize(naja) {
       naja.snippetHandler.addEventListener('afterUpdate', ({ detail }) => {
         const interactionElement = detail.options.interactionElement
 
-        if (!interactionElement || !interactionElement?.getAttribute('data-naja')?.includes('invoke')) return
+        if (!interactionElement || !interactionElement?.getAttribute('data-naja')?.includes('command')) return
 
-        interactionElement.setAttribute('data-invoke-target', `#${detail.snippet.id}`)
-        dataset(interactionElement, 'action').add('invoke#action')
+        const command = interactionElement.getAttribute('command')
+        const commandForElement = document.getElementById(interactionElement.getAttribute('commandfor'))
+
+        if (document.getElementById(detail.snippet.id).contains(commandForElement)) {
+          commandForElement?.[command.replace(/^--/, '')
+            .replace(/(-\w)/g, string => string[1].toUpperCase())]?.()
+        }
       })
     },
   }
