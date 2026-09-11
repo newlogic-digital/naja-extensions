@@ -1,5 +1,11 @@
 import naja from 'naja'
-import { dataset, dispatchCustomEvent } from '@newlogic-digital/utils-js'
+import { dispatchCustomEvent } from '@newlogic-digital/utils-js'
+
+/**
+ * @param {HTMLElement} element
+ * @returns {HTMLFormElement | undefined}
+ */
+const formOf = element => (element instanceof HTMLFormElement ? element : element?.form ?? undefined)
 
 /**
  * @param {HTMLElement} element
@@ -43,12 +49,12 @@ export const NajaCoreExtension = (options = {}) => {
 
         event.detail.options.interactionElement = event.detail.element
 
-        const form = event.detail?.originalEvent?.target
+        const form = formOf(event.detail.element)
 
-        if (form?.gtoken && (!form.recaptchaExecuted || !form?.checkValidity())) {
+        if (form?.gtoken && (!form.recaptchaExecuted || !form.checkValidity())) {
           event.preventDefault()
         }
-        else {
+        else if (form) {
           form.recaptchaExecuted = undefined
         }
       })
@@ -66,20 +72,21 @@ export const NajaCoreExtension = (options = {}) => {
       })
 
       naja.addEventListener('success', (event) => {
-        const formId = event.detail.payload.formId
-        const formStatus = event.detail.payload.formStatus
+        const { formId, formStatus } = event.detail.payload
 
-        if (formId && formStatus) {
-          const formElement = document.getElementById(formId)
+        if (!formId || !formStatus) return
 
-          if (formElement && formElement.dataset.naja === 'dialog' && formStatus === 'success') {
-            formElement.closest('dialog')?.close()
-          }
+        const formElement = document.getElementById(formId)
 
-          dispatchCustomEvent(formElement, `naja:form-${formStatus}`, {
-            detail: event.detail,
-          })
+        if (!formElement) return
+
+        if (formElement.dataset.naja === 'dialog' && formStatus === 'success') {
+          formElement.closest('dialog')?.close()
         }
+
+        dispatchCustomEvent(formElement, `naja:form-${formStatus}`, {
+          detail: event.detail,
+        })
       })
 
       naja.addEventListener('start', (event) => {
@@ -124,7 +131,11 @@ export const NajaCheckValidityExtension = () => {
       naja.uiHandler.addEventListener('interaction', (event) => {
         const { element } = event.detail
 
-        if (element?.form && !element.form.checkValidity()) {
+        const form = element instanceof HTMLFormElement
+          ? element
+          : element?.type === 'submit' ? element.form : null
+
+        if (form && !form.checkValidity()) {
           event.preventDefault()
         }
       })
