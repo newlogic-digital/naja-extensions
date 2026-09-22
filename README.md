@@ -44,6 +44,14 @@ _One-Time Activation:_
 
 #### 5. Adds loading attribute on buttons upon interaction
 
+#### 6. Appends snippet content and scrolls to snippet after update
+
+```html
+<button data-naja data-naja-url="/url?page=2" data-naja-append-to="snippet--list" data-naja-scroll-to="snippet--list">Load more</button>
+```
+- `data-naja-append-to`: ID of the snippet whose content is appended instead of replaced.
+- `data-naja-scroll-to`: ID of the snippet that is scrolled into view after the update.
+
 ### NajaInvokeExtension
 Replaces naja interaction with invoke actions after interaction.
 

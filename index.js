@@ -59,12 +59,24 @@ export const NajaCoreExtension = (options = {}) => {
         }
       })
 
+      naja.snippetHandler.addEventListener('beforeUpdate', ({ detail }) => {
+        const { snippet, options, changeOperation } = detail
+
+        if (snippet.id === options.interactionElement?.dataset.najaAppendTo) {
+          changeOperation(naja.snippetHandler.op.append)
+        }
+      })
+
       naja.snippetHandler.addEventListener('afterUpdate', (event) => {
         dispatchCustomEvent(event.detail.snippet, 'naja:afterUpdate', {
           detail: event.detail,
         })
 
         initNaja(event.detail.snippet, true, options.selectors)
+
+        if (event.detail.snippet.id === event.detail.options.interactionElement?.dataset.najaScrollTo) {
+          event.detail.snippet.scrollIntoView({ block: 'start' })
+        }
       })
 
       naja.historyHandler.addEventListener('buildState', ({ detail }) => {
